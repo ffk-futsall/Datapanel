@@ -67,56 +67,11 @@ A powerful, responsive, and intuitive control panel designed for IPTV resellers 
 *   **API Endpoints**: RESTful endpoints for geocoding and data retrieval
 *   **Automated Setup**: Web-based installer for easy deployment
 
-> **Important before deployment:** This copy excludes the original SQL data dump and screenshots to reduce the risk of exposing private data. `schema.sql` contains table structure only and no users. The original `setup.php` does not actually execute its table-creation SQL or create an admin account, despite the instructions below; do not rely on it for a complete installation. A database import, secure administrator setup, and security review are required before deployment. Restrict or remove `setup.php` after setup. Never commit database credentials or customer data.
+## Installation and administrator setup
 
-## 🚀 Getting Started
+See [INSTALIM.md](INSTALIM.md). Import `schema.sql` into an empty MySQL/MariaDB database, configure `config/db.php` privately, and run `php tools/create_admin.php` in a trusted server terminal. The command creates the first account (`admin`) and prints a temporary random password once. It will not overwrite existing users. The web installer is disabled. Change the temporary password after signing in over HTTPS.
 
-### Prerequisites
-
-*   **PHP 7.4+** with extensions:
-    *   PDO (MySQL)
-    *   JSON
-    *   cURL (for geocoding)
-    *   Session support
-*   **MySQL 5.7+** or **MariaDB 10.2+**
-*   **Web Server**: Apache 2.4+ or Nginx 1.18+
-*   **Modern Browser**: Chrome, Firefox, Safari, or Edge (for map features)
-
-### 📥 Installation
-
-1.  **Clone the repository**
-    ```bash
-    git clone <your-repository-url>
-    cd DataPanel
-    ```
-
-2.  **Setup Configuration**
-    
-    Open `setup.php` in your browser to run the automatic installer:
-    ```
-    http://your-server/pnl/setup.php
-    ```
-    
-    The installer will:
-    - Test database connection
-    - Create required tables (`tv_clients`, `tv_providers`, `tv_payments`, `users`, `security_logs`)
-    - Set up initial admin account
-    - Configure database credentials
-
-3.  **Manual Configuration (Optional)**
-    
-    Rename `config/db.example.php` to `config/db.php` and edit:
-    ```php
-    <?php
-    $host = 'localhost';
-    $db = 'your_database';
-    $user = 'your_username';
-    $pass = 'your_password';
-    ```
-
-4.  **Login**
-    
-    Navigate to `login.php` and use the credentials created during setup.
+**Security:** The original SQL data and screenshots are excluded. Do not upload `config/db.php`, credentials, or customer data to GitHub. Further security review and functional testing are required before public deployment. Keep setup files and database exports outside public access.
 
 ### 🗄️ Database Schema
 

@@ -1,8 +1,6 @@
 <?php
-// Enable error display for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Do not expose internal errors to visitors.
+ini_set('display_errors', '0');
 
 include_once '../includes/auth.php';
 require_once '../includes/i18n.php';
@@ -14,13 +12,16 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
 $error = '';
 $success = '';
+$user = false;
+$csrfToken = $security->generateCsrfToken();
 
 try {
     $stmt = $conn->prepare('SELECT id, username, password FROM users WHERE id = ?');
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch();
 } catch (PDOException $e) {
-    $error = t('account_db_error') . $e->getMessage();
+    error_log('DataPanel account lookup failed: ' . $e->getMessage());
+    $error = t('account_db_error');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -28,14 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new = trim($_POST['new_password'] ?? '');
     $confirm = trim($_POST['confirm_password'] ?? '');
     
-    if (!$user) {
+    if (!isset($_POST['csrf_token']) || !$security->verifyCsrfToken($_POST['csrf_token'])) {
+        $error = t('invalid_csrf_token');
+    } elseif (!$user) {
         $error = t('account_user_not_found');
-    } elseif ($new === '' || strlen($new) < 6) {
+    } elseif ($new === '' || strlen($new) < 12) {
         $error = t('account_password_short');
     } elseif ($new !== $confirm) {
         $error = t('account_passwords_mismatch');
     } else {
-        $matches = ($current === $user['password']) || password_verify($current, $user['password']);
+        $matches = password_verify($current, $user['password']);
         if (!$matches) {
             $error = t('account_current_wrong');
         } else {
@@ -45,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $upd->execute([$hash, $user['id']]);
                 $success = t('account_success');
             } catch (PDOException $e) {
-                $error = t('account_update_error') . $e->getMessage();
+                error_log('DataPanel password update failed: ' . $e->getMessage());
+                $error = t('account_update_error');
             }
         }
     }
@@ -82,6 +86,7 @@ include '../includes/header.php';
         </div>
         <div class="card-body">
             <form method="POST" class="row g-3">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') ?>">
                 <div class="col-12 col-md-6">
                     <label class="form-label"><?= htmlspecialchars(t('account_current_password')) ?></label>
                     <input type="password" name="current_password" class="form-control" required>

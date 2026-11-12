@@ -256,7 +256,7 @@ return [
     'account_subtitle' => 'Изменение пароля пользователя: ',
     'account_db_error' => 'Ошибка базы данных: ',
     'account_user_not_found' => 'Пользователь не найден',
-    'account_password_short' => 'Новый пароль должен быть не короче 6 символов',
+    'account_password_short' => 'Новый пароль должен быть не короче 12 символов',
     'account_passwords_mismatch' => 'Пароли не совпадают',
     'account_current_wrong' => 'Текущий пароль неверный',
     'account_success' => 'Пароль успешно изменен',

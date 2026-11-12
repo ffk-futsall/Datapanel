@@ -1,0 +1,12 @@
+config/db.php
+.idea
+.DS_Store
+*.log
+vendor/
+node_modules/
+
+# Database exports and credentials
+*.sql
+!schema.sql
+.env
+.env.*

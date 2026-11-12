@@ -227,7 +227,7 @@ return [
     'account_subtitle' => 'Change password for user: ',
     'account_db_error' => 'Database error: ',
     'account_user_not_found' => 'User not found',
-    'account_password_short' => 'New password must be at least 6 characters long',
+    'account_password_short' => 'New password must be at least 12 characters long',
     'account_passwords_mismatch' => 'Passwords do not match',
     'account_current_wrong' => 'Current password is incorrect',
     'account_success' => 'Password changed successfully',
