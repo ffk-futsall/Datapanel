@@ -63,6 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($first_name) || empty($phone)) {
             $error = t('name_phone_required');
+        } elseif ($provider_id <= 0 || !in_array($provider_id, array_map('intval', array_column($providers, 'id')), true)) {
+            $error = t('provider_required');
         } else {
             try {
                 $stmt = $conn->prepare("INSERT INTO tv_clients (first_name, phone, address, latitude, longitude, provider_id, subscription_date, months, login, password, device_count, viewing_program, paid, provider_cost, earned, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -241,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="provider_id" class="form-label"><?= htmlspecialchars(t('provider')) ?></label>
-                                <select id="provider_id" name="provider_id" class="form-select">
+                                <select id="provider_id" name="provider_id" class="form-select" required>
                                     <option value=""><?= htmlspecialchars(t('select_provider')) ?></option>
                                     <?php foreach ($providers as $provider): ?>
                                         <option value="<?= $provider['id'] ?>" 
@@ -250,6 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                                <?php if (empty($providers)): ?><small class="text-warning"><?= htmlspecialchars(t('provider_add_first')) ?> <a href="tv_providers.php"><?= htmlspecialchars(t('providers')) ?></a></small><?php endif; ?>
                             </div>
                             <div class="col-md-3">
                                 <label for="subscription_date" class="form-label"><?= htmlspecialchars(t('subscription_start_date')) ?></label>
@@ -451,7 +454,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     document.addEventListener('DOMContentLoaded', calculateEarnings);
 
     // Генерация пароля
-    document.getElementById('generate-password').addEventListener('click', function() {
+    const generatePasswordButton = document.getElementById('generate-password');
+    if (generatePasswordButton) generatePasswordButton.addEventListener('click', function() {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let password = '';
         for (let i = 0; i < 8; i++) {

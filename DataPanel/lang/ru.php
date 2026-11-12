@@ -1,5 +1,7 @@
 <?php
 return [
+    'provider_required' => 'Выберите существующего провайдера.',
+    'provider_add_first' => 'Сначала добавьте провайдера:',
     'dashboard_brand' => 'DataPanel',
     'subtitle' => 'Управление IPTV',
     'home' => 'Главная',

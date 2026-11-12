@@ -150,6 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (empty($first_name) || empty($phone)) {
             $error = t('name_phone_required');
+        } elseif ($provider_id <= 0 || !in_array($provider_id, array_map('intval', array_column($providers, 'id')), true)) {
+            $error = t('provider_required');
         } else {
             try {
                 $stmt = $conn->prepare("
@@ -564,12 +566,13 @@ if (isset($_GET['edit'])) {
                     </div>
                     <div class="col-md-6">
                         <label class="form-label"><?= htmlspecialchars(t('provider')) ?></label>
-                        <select name="provider_id" class="form-select">
+                        <select name="provider_id" class="form-select" required>
                             <option value=""><?= htmlspecialchars(t('select_provider')) ?></option>
                             <?php foreach ($providers as $provider): ?>
                                 <option value="<?= $provider['id'] ?>"><?= htmlspecialchars($provider['operator']) ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <?php if (empty($providers)): ?><small class="text-warning"><?= htmlspecialchars(t('provider_add_first')) ?> <a href="tv_providers.php"><?= htmlspecialchars(t('providers')) ?></a></small><?php endif; ?>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label"><?= htmlspecialchars(t('subscription_date')) ?></label>

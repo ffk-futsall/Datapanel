@@ -39,7 +39,7 @@ $is_active = function($page) use ($current_page) {
 <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
     <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
     <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
-        <img class="rounded-pill img-fluid" width="65" src="https://standigital.lv/favicon/favicon.png" alt="">
+        <img class="rounded-pill img-fluid" width="65" src="<?= $base_path ?>favicon-96x96.png" alt="DataPanel">
         <div class="ms-2">
             <h5 class="fs-6 mb-0">
                 <a class="text-decoration-none" href="<?= $base_path ?>index.php"><?php echo htmlspecialchars(isset($_SESSION['username']) ? $_SESSION['username'] : t('dashboard_brand')); ?></a>

@@ -1,5 +1,8 @@
 <?php
 return [
+    'provider_required' => 'Izvēlieties esošu pakalpojumu sniedzēju.',
+    'provider_add_first' => 'Vispirms pievienojiet pakalpojumu sniedzēju:',
+    'error_add_client' => 'Neizdevās pievienot klientu',
     'dashboard_brand' => 'DataPanel',
     'subtitle' => 'IPTV Pārvaldība',
     'home' => 'Sākums',

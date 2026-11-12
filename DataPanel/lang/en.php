@@ -1,5 +1,8 @@
 <?php
 return [
+    'provider_required' => 'Please select an existing provider.',
+    'provider_add_first' => 'Add a provider first:',
+    'error_add_client' => 'Could not add client',
     'dashboard_brand' => 'DataPanel',
     'subtitle' => 'IPTV Management',
     'home' => 'Home',
