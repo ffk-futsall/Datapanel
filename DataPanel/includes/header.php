@@ -78,6 +78,7 @@ $is_active = function($page) use ($current_page) {
             <i class="uil-shield-check"></i>
             <a href="<?= $pages_path ?>security_logs.php" class="text-decoration-none"><?= htmlspecialchars(t('security_logs')) ?></a>
         </li>
+        <li><i class="uil-list-ul"></i><a href="<?= $base_path ?>playlist/manage.php" class="text-decoration-none">Listat M3U</a></li>
     </ul>
 </aside>
 
